@@ -3,12 +3,15 @@ import numpy as np
 import random
 
 def getTransitionMatrix(network, nodes):
+	nodes = list(nodes)
 	matrix = np.empty([len(nodes), len(nodes)])
-
+    
 	for i in range(0, len(nodes)):
-		neighs = network.neighbors(nodes[i])
+
+		neighs = network[nodes[i]] # Replaced the above line with this line
 		sums = 0
 		for neigh in neighs:
+			
 			sums += network[nodes[i]][neigh]['weight']
 
 		for j in range(0, len(nodes)):
@@ -40,6 +43,7 @@ def generateSequence(startIndex, transitionMatrix, path_length, alpha):
 
 def random_walk(G, num_paths, path_length, alpha):
 	nodes = G.nodes()
+	nodes = list(nodes)
 	transitionMatrix = getTransitionMatrix(G, nodes)
 
 	sentenceList = []
