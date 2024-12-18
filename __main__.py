@@ -10,10 +10,10 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
 import logging
 
-from deepwalk import graph
-from deepwalk import walks as serialized_walks
+from . import graph
+from . import walks as serialized_walks
 from gensim.models import Word2Vec
-from skipgram import Skipgram
+from .skipgram import Skipgram
 
 from six import text_type as unicode
 from six import iteritems
@@ -23,7 +23,7 @@ import psutil
 from multiprocessing import cpu_count
 
 import networkx as nx
-from deepwalk import weighted_random_walk
+from . import weighted_random_walk
 
 p = psutil.Process(os.getpid())
 p.cpu_affinity(list(range(cpu_count())))
@@ -75,9 +75,9 @@ def process(args):
       walks = graph.build_deepwalk_corpus(G, num_paths=args.number_walks,path_length=args.walk_length, alpha=0, rand=random.Random(args.seed))
  
     print("Training...")
-    model = Word2Vec(walks, size=args.representation_size, window=args.window_size, min_count=0, workers=args.workers)
+    model = Word2Vec(walks, vector_size=args.representation_size, window=args.window_size, min_count=0, workers=args.workers)
 
-  model.save_word2vec_format(args.output)
+  model.wv.save_word2vec_format(args.output)
 
 
 def main():
