@@ -23,18 +23,8 @@ COPY ./volume/generate_embeddings.py /app/generate_embeddings.py
 RUN export LIB_PATH=$(python -c "import deepwalk, os; print(os.path.dirname(deepwalk.__file__))") && \
     mv /tmp/___main__.py $LIB_PATH/__main__.py && \
     mv /tmp/weighted_random_walk.py $LIB_PATH/weighted_random_walk.py
-    # mv /tmp/graph.py $LIB_PATH/graph.py
 
-
-# Copy contents of the local src directory to the working directory
-#COPY "./Node Embeddings/" "/app/Node Embeddings/"
-#COPy "./Weighted Edges/" "/app/Weighted Edges/"
-
-# Set the default command
-#   deepwalk --input input.file --format weighted_edgelist --output output.file
-#CMD ["deepwalk", "--input", "/app/Weighted Edges/edges2.txt", "--format", "weighted_edgelist", "--output", "/app/Node Embeddings/edges2.embeddings"]
-#CMD ["sh", "-c", "deepwalk --input '/app/Weighted Edges/edges2.txt' --format weighted_edgelist --output '/app/Node Embeddings/edges2.embeddings' && deepwalk --input '/app/Weighted Edges/edges1.txt' --format weighted_edgelist --output '/app/Node Embeddings/edges1.embeddings'"]
-# Run the python script /app/generate_embeddings.py
+# Run the command to generate the embeddings
 CMD ["python", "/app/generate_embeddings.py"]
 
 
